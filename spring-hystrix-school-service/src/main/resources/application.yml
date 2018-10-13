@@ -1,0 +1,35 @@
+server.port: 9098
+
+spring:
+   cloud:
+     loadbalancer:
+         retry:
+            enabled: true
+            
+student-service:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: localhost:8098,localhost:8099 
+    MaxAutoRetriesNextServer: 1
+    MaxAutoRetries: 0
+    OkToRetryOnAllOperations: true
+    retryableStatusCodes: 500
+# Estos parámetros sólo sirven si usas feign o zuul, si no hay que setearlos directamente 
+# en la configuración de RestTemplate
+#    ReadTimeout: 1000
+#    ConnectTimeout: 250
+
+
+
+    
+hystrix:
+  command:
+    callStudentServiceAndGetData:
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 5000
+            
+            
